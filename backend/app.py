@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
@@ -19,7 +20,7 @@ PHISHING_KEYWORDS_EMAIL = [
     "suspended", "update account", "login now", "unauthorized"
 ]
 
-VIRUSTOTAL_API_KEY = "db1f9e6093f5dcb4a8ea4de2ea797e74d8e3ff97ed48c148e8c5d307a9b5e1f5"
+VIRUSTOTAL_API_KEY = os.environ.get("VIRUSTOTAL_API_KEY", "")
 
 # URL Phishing Detection (Using VirusTotal)
 @app.route("/analyze-url", methods=["POST"])
@@ -138,4 +139,4 @@ def analyze_sms():
     })
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(debug=os.environ.get("FLASK_DEBUG") == "1", port=5000)
